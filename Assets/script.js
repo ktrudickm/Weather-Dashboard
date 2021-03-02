@@ -20,24 +20,56 @@ function handleSearchFormSubmit(event) {
     getApi(searchInputVal);
 }
 
+//"https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid=41f0b59a1e00c5b966c2d7bde52a04f5"
+//Current weather:
+//https://api.openweathermap.org/data/2.5/weather?q={city name}&appid=41f0b59a1e00c5b966c2d7bde52a04f5"
 
 // Function to get API based on user's city name input
+// Need to create another fetch call for the current weather
 function getApi() {
     var savedCity = localStorage.getItem('city');
     var weatherApi = "https://api.openweathermap.org/data/2.5/forecast?q=" + savedCity + "&appid=41f0b59a1e00c5b966c2d7bde52a04f5&units=imperial";
+    var currentApi = "https://api.openweathermap.org/data/2.5/weather?q=" + savedCity + "&appid=41f0b59a1e00c5b966c2d7bde52a04f5&units=imperial";
     console.log(weatherApi);
 
     fetch(weatherApi)
         .then(function (response) {
-        if (!response.ok) {
-            throw response.json();
-        }
+            if (!response.ok) {
+                throw response.json();
+            }
+            console.log(response);
+            return response.json();
+        })
+        .then(function(data) {
+            console.log(data);
+            // console.log(data.city.name);
+            // console.log(data.list[0].main.humidity);
+            // console.log(data.list[0].main.temp);
+            // console.log(data.list[0].wind.speed);
 
-        return response.json();
+            // displayFiveDay(data.city.name, data.list[4].main.temp, data.list[4].main.humidity, data.list[4].wind.speed);
         })
 
+    fetch(currentApi)
+        .then(function (response) {
+            if (!response.ok) {
+                throw response.json();
+            }
+            console.log(response);
+            return response.json();
+        })
+        .then(function(data) {
+            console.log(data);
+
+            //displayCurrent(data.name, data.main.temp, data.main.humidity, data.wind.speed, data.weather[0].main);
+        })
 }
 
+// Function to display 5-day forecast
+function displayFiveDay(){
+    // Need to loop through object for each day given the parameters I want (humidity, temp, etc)
+
+}
 
 
 // Function to display search history
