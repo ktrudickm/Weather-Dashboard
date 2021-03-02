@@ -1,7 +1,6 @@
 var searchBtn = document.getElementById('searchbtn');
-var searchHistoryEl = document.getElementById('search-history');
 var clearBtn = document.getElementById('clear-history');
-
+var searchHistoryEl = document.getElementById('search-history');
 
 
 // Function to handle saving user input value for the city name and saving it to local storage
@@ -21,13 +20,24 @@ function handleSearchFormSubmit(event) {
     getApi(searchInputVal);
 }
 
+
 // Function to get API based on user's city name input
 function getApi() {
     var savedCity = localStorage.getItem('city');
     var weatherApi = "https://api.openweathermap.org/data/2.5/forecast?q=" + savedCity + "&appid=41f0b59a1e00c5b966c2d7bde52a04f5&units=imperial";
     console.log(weatherApi);
 
+    fetch(weatherApi)
+        .then(function (response) {
+        if (!response.ok) {
+            throw response.json();
+        }
+
+        return response.json();
+        })
+
 }
+
 
 
 // Function to display search history
@@ -41,7 +51,6 @@ function displayHistory(){
     history.appendChild(cityName);
     console.log(history);
 
-    cityName.classList.add("listItm");
     cityName.style.listStyle = "none";
 }
 
