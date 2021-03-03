@@ -1,7 +1,11 @@
 var searchBtn = document.getElementById('searchbtn');
 var clearBtn = document.getElementById('clear-history');
 var searchHistoryEl = document.getElementById('search-history');
-
+var cityEl = document.getElementById('city');
+var tempEl = document.getElementById('temp');
+var humidityEl = document.getElementById('humidity');
+var windEl = document.getElementById('wind');
+var currentIcon = document.getElementById('current-icon');
 
 // Function to handle saving user input value for the city name and saving it to local storage
 function handleSearchFormSubmit(event) {
@@ -42,12 +46,13 @@ function getApi() {
         })
         .then(function(data) {
             console.log(data);
-            // console.log(data.city.name);
-            // console.log(data.list[0].main.humidity);
-            // console.log(data.list[0].main.temp);
-            // console.log(data.list[0].wind.speed);
+            console.log("5-day data")
+            console.log(data.list[0].main.humidity);
+            console.log(data.list[0].main.temp);
+            console.log(data.list[4].weather[0].icon);
+            var dataFiveDay = data;
 
-            // displayFiveDay(data.city.name, data.list[4].main.temp, data.list[4].main.humidity, data.list[4].wind.speed);
+            displayFiveDay(dataFiveDay);
         })
 
     fetch(currentApi)
@@ -60,14 +65,31 @@ function getApi() {
         })
         .then(function(data) {
             console.log(data);
+            console.log("Current data")
 
-            //displayCurrent(data.name, data.main.temp, data.main.humidity, data.wind.speed, data.weather[0].main);
+            // displayCurrent(data.name, data.main.temp, data.main.humidity, data.wind.speed, data.weather[0].main or icon);
         })
 }
 
 // Function to display 5-day forecast
-function displayFiveDay(){
+function displayFiveDay(dataFiveDay){
     // Need to loop through object for each day given the parameters I want (humidity, temp, etc)
+    // data.list[4,12,20,28,36]
+    for (i = 4; i < 36; i+8) {
+        var dateFive = dataFiveDay.list[i].dt_txt;
+        var tempFive = dataFiveDay.list[i].main.temp;
+        var humidFive = dataFiveDay.list[i].main.humidity;
+        var iconFive = data.list[i].weather[0].icon;
+
+        console.log(dateFive);
+
+    }
+
+
+}
+
+function displayCurrent(){
+
 
 }
 
