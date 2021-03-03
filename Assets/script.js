@@ -9,17 +9,18 @@ var currentIcon = document.getElementById('current-icon');
 var fiveDay = document.getElementById('fiveDay');
 var dataFiveDay;
 var currentData;
+var searchInputVal;
 
 // Function to handle saving user input value for the city name and saving it to local storage
 function handleSearchFormSubmit(event) {
     event.preventDefault();
   
-    var searchInputVal = document.querySelector('#searchinput').value;
+    searchInputVal = document.querySelector('#searchinput').value;
     console.log(historyArr)
     if(historyArr.indexOf(searchInputVal) === -1){
         historyArr.push(searchInputVal);
-        localStorage.setItem('history', JSON.stringify(historyArr))
-        displayHistory(searchInputVal)
+        localStorage.setItem('history', JSON.stringify(historyArr));
+        displayHistory(searchInputVal);
     }
     if (!searchInputVal) {
       console.error('You need a search input value!');
@@ -27,8 +28,6 @@ function handleSearchFormSubmit(event) {
     }
 
     console.log(searchInputVal);
-
-   //localStorage.setItem('city', searchInputVal);
    
     getApi(searchInputVal);
 }
@@ -44,7 +43,11 @@ function getApi(city) {
     var weatherApi = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=41f0b59a1e00c5b966c2d7bde52a04f5&units=imperial";
     var currentApi = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=41f0b59a1e00c5b966c2d7bde52a04f5&units=imperial";
     console.log(weatherApi);
-//clear 5-day and current weather div's
+
+    cityEl.innerHTML = "";
+    fiveDay.innerHTML = "";
+    tempEl.innerHTML = "";
+
     fetch(weatherApi)
         .then(function (response) {
             if (!response.ok) {
@@ -133,9 +136,6 @@ function displayCurrent(currentData){
     tempEl.append(document.createTextNode("Temperature: " + currentData.main.temp + " ℉"));
 
 
-
-
-
 }
 
 
@@ -156,25 +156,23 @@ function displayHistory(city){
 
 }
 
-// Event Listener for clearing city name search history
-clearBtn.addEventListener('click', function clearHistory() {
-    searchHistoryEl.innerHTML = "";
-    localStorage.clear();
-});
-
-
 // Event listener for when user clicks search button after inputting a city name
 searchBtn.addEventListener('click', handleSearchFormSubmit);
 
 
 var historyArr = JSON.parse(localStorage.getItem('history')) || [];
 
-
 if(historyArr.length){
-
     for (let i = 0; i < historyArr.length; i++) {
         console.log(historyArr[i])
        displayHistory(historyArr[i])
         
     }
 }
+
+// Event Listener for clearing city name search history
+clearBtn.addEventListener('click', function clearHistory() {
+    searchHistoryEl.textContent = "";
+    localStorage.clear();
+    historyArr = [];
+});
