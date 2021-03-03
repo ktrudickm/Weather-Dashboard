@@ -7,6 +7,7 @@ var humidityEl = document.getElementById('humidity');
 var windEl = document.getElementById('wind');
 var currentIcon = document.getElementById('current-icon');
 var dataFiveDay;
+var currentData;
 
 // Function to handle saving user input value for the city name and saving it to local storage
 function handleSearchFormSubmit(event) {
@@ -45,6 +46,7 @@ function getApi() {
             console.log(response);
             return response.json();
         })
+        // Handles the five day data and loops through the list array and assigns to variables in order to display onto page.
         .then(function(data) {
             console.log(data);
             console.log("5-day data")
@@ -58,7 +60,6 @@ function getApi() {
                 var tempFive = data.list[i].main.temp;
                 var humidFive = data.list[i].main.humidity;
                 var iconFive = data.list[i].weather[0].icon;
-        
                 console.log(dateFive);
             }
         })
@@ -74,13 +75,13 @@ function getApi() {
         .then(function(data) {
             console.log(data);
             console.log("Current data")
-
-            // displayCurrent(data.name, data.main.temp, data.main.humidity, data.wind.speed, data.weather[0].main or icon);
+            currentData = data;
+            displayCurrent(currentData);
         })
 }
 
 // Function to display 5-day forecast
-function displayFiveDay(dataFiveDay){
+//function displayFiveDay(dataFiveDay){
     // Need to loop through object for each day given the parameters I want (humidity, temp, etc)
     // data.list[4,12,20,28,36]
     // for (i = 4; i < 36; i+8) {
@@ -93,10 +94,22 @@ function displayFiveDay(dataFiveDay){
 
     // }
 
+//}
 
-}
+function displayCurrent(currentData){
+//data.name, data.main.temp, data.main.humidity, data.wind.speed, data.weather[0].main or icon);
+console.log('This is CURRENT from current function');
+console.log(currentData);
+console.log(currentData.main.temp);
 
-function displayCurrent(){
+var displayCity = document.createElement('h2');
+cityEl.append(displayCity);
+displayCity.append(document.createTextNode(currentData.name + " " + currentData.weather[0].icon));
+
+var displayInfo = document.createElement('ul');
+
+
+
 
 
 }
