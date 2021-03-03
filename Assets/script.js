@@ -6,6 +6,7 @@ var tempEl = document.getElementById('temp');
 var humidityEl = document.getElementById('humidity');
 var windEl = document.getElementById('wind');
 var currentIcon = document.getElementById('current-icon');
+var dataFiveDay;
 
 // Function to handle saving user input value for the city name and saving it to local storage
 function handleSearchFormSubmit(event) {
@@ -50,9 +51,16 @@ function getApi() {
             console.log(data.list[0].main.humidity);
             console.log(data.list[0].main.temp);
             console.log(data.list[4].weather[0].icon);
-            var dataFiveDay = data;
+            dataFiveDay = data;
 
-            displayFiveDay(dataFiveDay);
+            for (i = 4; i < dataFiveDay.list.length; i+=8) {
+                var dateFive = data.list[i].dt_txt;
+                var tempFive = data.list[i].main.temp;
+                var humidFive = data.list[i].main.humidity;
+                var iconFive = data.list[i].weather[0].icon;
+        
+                console.log(dateFive);
+            }
         })
 
     fetch(currentApi)
@@ -75,15 +83,15 @@ function getApi() {
 function displayFiveDay(dataFiveDay){
     // Need to loop through object for each day given the parameters I want (humidity, temp, etc)
     // data.list[4,12,20,28,36]
-    for (i = 4; i < 36; i+8) {
-        var dateFive = dataFiveDay.list[i].dt_txt;
-        var tempFive = dataFiveDay.list[i].main.temp;
-        var humidFive = dataFiveDay.list[i].main.humidity;
-        var iconFive = data.list[i].weather[0].icon;
+    // for (i = 4; i < 36; i+8) {
+    //     var dateFive = dataFiveDay.list[i].dt_txt;
+    //     var tempFive = dataFiveDay.list[i].main.temp;
+    //     var humidFive = dataFiveDay.list[i].main.humidity;
+    //     var iconFive = data.list[i].weather[0].icon;
 
-        console.log(dateFive);
+    //     console.log(dateFive);
 
-    }
+    // }
 
 
 }
