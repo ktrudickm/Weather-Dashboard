@@ -5,11 +5,14 @@ var cityEl = document.getElementById('city');
 var tempEl = document.getElementById('temp');
 var humidityEl = document.getElementById('humidity');
 var windEl = document.getElementById('wind');
+var uvEL = document.getElementById('UV');
 var currentIcon = document.getElementById('current-icon');
 var fiveDay = document.getElementById('fiveDay');
+var uvVal = document.getElementById('UVval');
 var dataFiveDay;
 var currentData;
 var searchInputVal;
+var uvIndex;
 
 // Function to handle saving user input value for the city name and saving it to local storage
 function handleSearchFormSubmit(event) {
@@ -99,11 +102,16 @@ function getApi(city) {
 }
 
 
+
 function displayCurrent(currentData){
-//data.name, data.main.temp, data.main.humidity, data.wind.speed, data.weather[0].main or icon);
+
     console.log('This is CURRENT from current function');
     console.log(currentData);
     console.log(currentData.main.temp);
+
+    var Lat = currentData.coord.lat;
+    var Lon = currentData.coord.lon;
+    getUV(Lat, Lon);
 
     var displayCity = document.createElement('h2');
     cityEl.append(displayCity);
@@ -123,8 +131,46 @@ function displayCurrent(currentData){
 
     windEl.append(document.createTextNode("Wind Speed: " + currentData.wind.speed + " MPH"));
 
+    uvEL.append(document.createTextNode("UV Index:  "));
+
 }
 
+function getUV(latitude, longitude) {
+    var uvAPI = "http://api.openweathermap.org/data/2.5/uvi?lat=" + latitude + "&lon=" + longitude + "&appid=41f0b59a1e00c5b966c2d7bde52a04f5";
+
+    fetch(uvAPI)
+        .then(function (response) {
+            if (!response.ok) {
+                throw response.json();
+            }
+            console.log(response);
+            return response.json();
+        })
+        .then(function(data) {
+            console.log(data);
+            console.log("THIS IS UV DATA")
+            uvData = data.value;
+            uvStyle(uvData);
+            
+        })
+}
+
+function uvStyle(uvData){
+    uvVal.append(document.createTextNode(uvData));
+
+    if (uvData >= 3 && uvData < 6){
+        uvVal.style.backgroundColor = "yellow";
+    }
+    else if (uvData >= 6 && uvData < 8){
+        uvVal.style.backgroundColor = "orange";
+    }
+    else if(uvData >= 8 && uvData < 11){
+        uvVal.style.backgroundColor = "red";
+    }
+    else {
+        uvVal.style.backgroundColor = "violet";
+    }
+}
 
 // Function to display search history
 function displayHistory(city){
