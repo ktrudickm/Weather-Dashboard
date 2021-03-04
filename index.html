@@ -13,13 +13,13 @@
 <body>
 
     <nav class="navbar navbar-dark bg-dark">
-        <h1 class="navbar-brand mb-0 w-100 h1 text-center">Weather Dashboard</h1>
+        <h1 class="mb-0 w-100 h1 text-center">Weather Dashboard</h1>
     </nav>
 
-    <div class="container">
+    <div class="contain">
 
         <div class="row">
-            <div class="col-2 bg-light">
+            <div class="col-3 bg-light">
                 <h3 class="search my-1">Search for a city</h3>
                 <div class="input-group mb-3">
                     <input id="searchinput" type="text" class="form-control" placeholder="Enter city name" aria-label="Enter city name">
@@ -34,7 +34,7 @@
                     <ul id="search-history"></ul>
                 </div>
             </div>
-            <div class="col-10">
+            <div class="col-9">
                 <div class="row mr-0">
                     <div class="col-12 border border-dark m-3 rounded">
                         <div class="row">
@@ -79,7 +79,8 @@
             </div>
         </div>
     </div>
-
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="./Assets/script.js"></script>
 </body>
 </html>

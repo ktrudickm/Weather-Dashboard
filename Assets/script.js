@@ -32,12 +32,7 @@ function handleSearchFormSubmit(event) {
     getApi(searchInputVal);
 }
 
-//"https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid=41f0b59a1e00c5b966c2d7bde52a04f5"
-//Current weather:
-//https://api.openweathermap.org/data/2.5/weather?q={city name}&appid=41f0b59a1e00c5b966c2d7bde52a04f5"
-
 // Function to get API based on user's city name input
-// Need to create another fetch call for the current weather
 function getApi(city) {
     
     var weatherApi = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=41f0b59a1e00c5b966c2d7bde52a04f5&units=imperial";
@@ -47,6 +42,8 @@ function getApi(city) {
     cityEl.innerHTML = "";
     fiveDay.innerHTML = "";
     tempEl.innerHTML = "";
+    humidityEl.innerHTML = "";
+    windEl.innerHTML = "";
 
     fetch(weatherApi)
         .then(function (response) {
@@ -58,16 +55,11 @@ function getApi(city) {
         })
         // Handles the five day data and loops through the list array and assigns to variables in order to display onto page.
         .then(function(data) {
-            //console.log(data);
-            // console.log("5-day data")
-            // console.log(data.list[0].main.humidity);
-            // console.log(data.list[0].main.temp);
-            // console.log(data.list[4].weather[0].icon);
             dataFiveDay = data;
 
             for (i = 4; i < dataFiveDay.list.length; i+=8) {
                 var card = document.createElement("div");
-                card.classList.add("col", "bg-primary", "five")
+                card.classList.add("col", "bg-primary", "five", "text-white", "ml-3", "mb-3", "rounded")
 
                 var date = document.createElement("h2")
                 var dateFive = data.list[i].dt_txt;
@@ -75,17 +67,16 @@ function getApi(city) {
                 
                 var temp = document.createElement("p")
                 var tempFive = data.list[i].main.temp;
-                temp.textContent = "Temperature: " + tempFive;
+                temp.textContent = "Temp: " + tempFive + " ℉";
 
                 var humid = document.createElement("p")
                 var humidFive = data.list[i].main.humidity;
-                humid.textContent = "Humid: " + humidFive
+                humid.textContent = "Humidity: " + humidFive + "%";
 
                 var icon = document.createElement("img");
                 icon.setAttribute("src", "http://openweathermap.org/img/w/" + data.list[i].weather[0].icon + ".png")
-                //var iconFive = data.list[i].weather[0].icon;
-                // console.log(dateFive, tempFive, humidFive);
-                card.append(date, temp, humid, icon)
+                
+                card.append(date, icon, temp, humid)
                 fiveDay.appendChild(card);
 
             }
@@ -107,21 +98,6 @@ function getApi(city) {
         })
 }
 
-// Function to display 5-day forecast
-//function displayFiveDay(dataFiveDay){
-    // Need to loop through object for each day given the parameters I want (humidity, temp, etc)
-    // data.list[4,12,20,28,36]
-    // for (i = 4; i < 36; i+8) {
-    //     var dateFive = dataFiveDay.list[i].dt_txt;
-    //     var tempFive = dataFiveDay.list[i].main.temp;
-    //     var humidFive = dataFiveDay.list[i].main.humidity;
-    //     var iconFive = data.list[i].weather[0].icon;
-
-    //     console.log(dateFive);
-
-    // }
-
-//}
 
 function displayCurrent(currentData){
 //data.name, data.main.temp, data.main.humidity, data.wind.speed, data.weather[0].main or icon);
@@ -131,10 +107,21 @@ function displayCurrent(currentData){
 
     var displayCity = document.createElement('h2');
     cityEl.append(displayCity);
-    displayCity.append(document.createTextNode(currentData.name + " " + currentData.weather[0].icon));
+
+    var currIcon = document.createElement("img");
+    currIcon.setAttribute("src", "http://openweathermap.org/img/w/" + currentData.weather[0].icon + ".png")
+
+    var currDate = new Date(moment().format()).toLocaleDateString();
+
+    displayCity.append(document.createTextNode(currentData.name + "   "));
+    displayCity.append(document.createTextNode(" (" + currDate + ") "));
+    displayCity.append(currIcon);
 
     tempEl.append(document.createTextNode("Temperature: " + currentData.main.temp + " ℉"));
 
+    humidityEl.append(document.createTextNode("Humidity: " + currentData.main.humidity + " %"));
+
+    windEl.append(document.createTextNode("Wind Speed: " + currentData.wind.speed + " MPH"));
 
 }
 
@@ -151,7 +138,6 @@ function displayHistory(city){
         getApi(this.textContent)
     }
     
-
     searchHistoryEl.appendChild(cityName);
 
 }
