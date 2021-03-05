@@ -3,7 +3,7 @@
   }
 
 h3 {
-    font-size: 22px;
+    font-size: 25px;
 }
 
 .contain{
@@ -19,16 +19,25 @@ h3 {
 
 #search-history li {
     list-style: none;
-    font-size: 25px;
-
+    font-size: 20px;
+    padding: 4px;
 }
 
 .five h2 {
-    font-size:25px;
+    font-size:20px;
     padding-top: 4px;
 }
 
 nav h1 {
     font-size: 50px;
     color: white;
+}
+
+#currentWeather {
+    border-color: gray;
+}
+
+.search {
+    padding-top: 8px;
+    padding-bottom: 4px;
 }
