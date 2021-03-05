@@ -89,6 +89,11 @@ Bootstrap - [Containers](https://getbootstrap.com/docs/5.0/layout/containers/)
 
 Bootstrap - [Forms](https://getbootstrap.com/docs/5.0/forms/overview/)
 
+MDN Web Docs - [Fetching Data from the Server](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Client-side_web_APIs/Fetching_data)
+
+MDN Web Docs - [Manipulating Documents](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Client-side_web_APIs/Manipulating_documents)
+
+Open Weather - [Open Weather API Documentation](https://openweathermap.org/api)
 
 ## Links
 
